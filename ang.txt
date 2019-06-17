@@ -1,0 +1,290 @@
+<div style="text-align:center">
+<h1>
+  {{title}}
+</h1>
+<div style="width:100%;"><br>
+  <input id="date" #date type="date">
+  <button bt value="multi" id="multi" (click)="getage(date.value)">Get Age</button>
+</div><br><br>
+<div *ngIf="count==true" id="age">
+  Your age is {{age}}
+</div>
+</div>
+
+
+export class AppComponent {
+title='Age!';
+count=false;
+age: number;
+getage(value)
+{
+  var today = new Date();
+  var birthDate = new Date(value);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+  }
+
+  this.age=age;
+  this.count=true;    
+   }
+}
+
+
+
+
+
+<div style="text-align:center">
+  <h1>Calculator</h1>  
+  <input type="number"  id="firstNumber"   class="form-control" #first><br>
+  <input type="number"  id="secondNumber"  class="form-control" #second>
+  <br>
+  <button type="submit" (click) = 'calculate(first.value, second.value)'>Multiply</button>
+  <h4>{{sum}}</h4>
+</div>
+
+
+
+export class AppComponent {
+  title = 'calculator';
+  sum: number;
+  calculate(first:number, second:number) {
+   this.sum = +first * +second;
+  }
+}
+
+  
+  
+
+
+<div style="text-align:center">
+  <h1>
+  {{ title }}!
+  </h1>
+  <input type="number"  id="firstNumber"   #first><br>
+  <input type="number"  id="secondNumber"   #second><br>
+
+  <button type="submit" (click) = 'calculate(first.value, second.value)'>Multiply</button>
+  <button type="submit" (click) = 'calculate1(first.value, second.value)'>Divide</button>
+  <h4>{{sum}}</h4>
+</div>
+ 
+
+
+export class AppComponent {
+  title = 'Calculator';
+  sum: number;
+  calculate(first:number, second:number) {
+   this.sum = +first * +second;
+  }
+ 
+  calculate1(first:number, second:number) {
+   this.sum = +first / +second;
+  }
+}
+
+
+6.
+
+register.component.html
+
+<div>
+  <form name="Regform">
+    Username<input type="text"  id="name" #name><br>
+    Password<input type="password"  id="pass"><br>
+    Mobile<input type="text"  id="mobile"><br>
+    Email<input type="text"  id="email"><br>
+    <button  btnCheckbox value="button" id="button" (click) = "Reg(name.value)">Register</button>
+  </form>
+</div>
+-------------------------
+register.component.ts
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+  Reg(value)
+  {
+    alert("registered successfully" +value);
+  }
+}
+
+--------------------------------
+app-routing.module.ts
+
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { RegisterComponent} from './register/register.component';
+const routes: Routes = [
+  {
+    path:'register',
+    component:RegisterComponent
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+------------------------------------
+app.component.html
+
+
+<div style="text-align:center">
+  <h1>  {{title}}  </h1>
+    <a [routerLink]="['/register']">Register</a>
+</div>
+
+<div class="outlet-outlet">
+<router-outlet></router-outlet>
+
+</div>
+
+----------------------------------------
+app.component.ts
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Welcome to Q3';
+}
+---------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  Username<input type="text" id="username" #username name="username" ><br>
+  Password<input type="text" id="password" #password name="password"><br>
+  <button  btnCheckbox value="button" id="button" (click) = 'login(username.value,password.value)'>Login</button>
+  </div>
+ 
+  <div class="outlet-outlet">
+    <router-outlet></router-outlet>
+    
+    </div> 
+
+
+
+
+
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent  {
+
+ public name:string;
+ constructor(){
+ this.name=localStorage.getItem("user");
+}
+}
+
+
+
+
+
+
+
+
+
+
+import { Component } from '@angular/core';
+import {Router} from '@angular/router';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Login';
+  name:string;
+  constructor(private router:Router) {}
+  login(username:string,password:string) 
+   {
+    if(username == 'admin' && password == 'admin'){
+  alert("valid ");
+ 
+ this.router.navigate(['login']);
+    }
+    else
+    {
+      alert("invalid");
+    }
+  }
+  }
+
+
+
+
+
+
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  <input type="number" id="numb" #num>
+  <button type="submit" (click) = 'calculate(num.value)'>Submit</button>
+  <div>
+  percentage is {{number1}}
+  </div>
+
+
+
+
+
+
+
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'percentage';
+  number1:number;
+  calculate(value)
+  {
+   this.number1=value*100;
+  }
+}
